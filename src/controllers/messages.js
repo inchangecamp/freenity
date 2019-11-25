@@ -8,7 +8,7 @@ const fs = require("fs")
 const embed = require("embed-video")
 const cheerio = require('cheerio')
 const process = require('child_process')
-const googleTranslate = require('google-translate')('AIzaSyDM6cogIKTjY-9qqihVxoFonxwvK2vhqTk')
+const googleTranslate = require('google-translate')('APIKEY')
 const Mercury = require('@postlight/mercury-parser')
 
 exports.index = async (req, res) => { 
@@ -116,11 +116,11 @@ exports.store = async (req, res) => {
 			
 			var arr=message.files[0].url.split('/')
 	
-			await process.exec('/bin/sh /home/wizard1988/freenity.news/http/public/showvideo.sh '+arr[1], function (error, stdout, stderr) {
+			await process.exec('/bin/sh URL/http/public/showvideo.sh '+arr[1], function (error, stdout, stderr) {
 			  if (error) console.log(error.code)
 			})
 		
-			await process.exec('chmod 777 "/home/wizard1988/freenity.news/http/public/files/'+arr[1]+'.jpg"', function (error, stdout, stderr) {
+			await process.exec('chmod 777 "URL/http/public/files/'+arr[1]+'.jpg"', function (error, stdout, stderr) {
 			  if (error) console.log(error.code)
 			})		
 
@@ -147,7 +147,7 @@ exports.store = async (req, res) => {
 		
 
 		if (message.title) {
-			await rp2('https://translation.googleapis.com/language/translate/v2?key=AIzaSyDM6cogIKTjY-9qqihVxoFonxwvK2vhqTk&target=en&q=' + encodeURIComponent(message.title))
+			await rp2('https://translation.googleapis.com/language/translate/v2?key=APIKEY&target=en&q=' + encodeURIComponent(message.title))
 			.then(function(htmlString) {
 				data = JSON.parse(htmlString.replace(/&quot;/g,'"').replace(/&#39;/g,''));
 				message.title_en=data.data.translations[0].translatedText
@@ -158,7 +158,7 @@ exports.store = async (req, res) => {
 		}
 
 		if (message.description) {
-			await rp2('https://translation.googleapis.com/language/translate/v2?key=AIzaSyDM6cogIKTjY-9qqihVxoFonxwvK2vhqTk&target=en&q=' + encodeURIComponent(message.description))
+			await rp2('https://translation.googleapis.com/language/translate/v2?key=APIKEY&target=en&q=' + encodeURIComponent(message.description))
 			.then(function(htmlString) {
 				data = JSON.parse(htmlString.replace(/&quot;/g,'"').replace(/&#39;/g,''));
 				message.description_en=data.data.translations[0].translatedText
@@ -172,7 +172,7 @@ exports.store = async (req, res) => {
 			
 			//message.comment = message.comment.replace(/(http:\/\/[.\w/=&?]+)/gi, "<a href='$1'>$1</a>");
 			
-			await rp2('https://translation.googleapis.com/language/translate/v2?key=AIzaSyDM6cogIKTjY-9qqihVxoFonxwvK2vhqTk&target=en&q=' + encodeURIComponent(message.comment))
+			await rp2('https://translation.googleapis.com/language/translate/v2?key=APIKEY&target=en&q=' + encodeURIComponent(message.comment))
 			.then(function(htmlString) {
 				data = JSON.parse(htmlString.replace(/&quot;/g,'"').replace(/&#39;/g,''));
 				message.comment_en=data.data.translations[0].translatedText
