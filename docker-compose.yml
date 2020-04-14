@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+    app:
+        container_name: app2
+        build: .
+        ports:
+            - "3000:3000"
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        working_dir: /usr/src/app
+        networks:
+            - app-network2
+        links:
+            - mongodb
+        command: [ "nodemon", "-L", "src/index.js" ]
+
+    mongodb:
+        container_name: mongodb2
+        image: mongo
+        ports:
+            - "27018:27017"
+        networks:
+            - app-network2
+        volumes:
+            - ./dbdata:/data/db
+        environment:
+            MONGODB_USER: internetnation
+            MONGODB_DATABASE: internetnation2
+            MONGODB_PASS: int423erne581tnat30591on
+
+networks:
+    app-network2:
+        driver: bridge
