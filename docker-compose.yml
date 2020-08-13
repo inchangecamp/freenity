@@ -1,0 +1,35 @@
+version: '2'
+
+services:
+    app:
+        container_name: app5
+        build: .
+        ports:
+            - "5000:3000"
+        volumes:
+            - .:/usr/src/app
+            - /usr/src/app/node_modules
+        working_dir: /usr/src/app
+        networks:
+            - app-network5
+        links:
+            - mongodb
+        command: [ "nodemon", "-L", "src/index.js" ]
+
+    mongodb:
+        container_name: mongodb5
+        image: mongo
+        ports:
+            - "27025:27017"
+        networks:
+            - app-network5
+        volumes:
+            - ./dbdata:/data/db
+        environment:
+            MONGODB_USER: internetnation
+            MONGODB_DATABASE: internetnation5
+            MONGODB_PASS: int423erne581tnat30591on
+
+networks:
+    app-network5:
+        driver: bridge
